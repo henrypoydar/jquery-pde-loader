@@ -3,8 +3,8 @@
  *
  * A simple mechanism for loading Processing (.pde) files
  * into canvas elements. Just supply the .pde file and
- * an optional array of strings to prefix to the top
- * of the file.  Processing.js required of course.
+ * optional strings to prepend and append to the file.
+ * Processing.js required of course.
  *
  * Usage:
  *
@@ -13,11 +13,21 @@
 **/
 
 (function($) {
-  $.fn.load_pde = function(pde_file, prefixes) {
-    prefixes = (typeof(prefixes) != 'undefined' ? prefixes : []);
-    var ctx = this[0];
-    $.get(pde_file, function(data){ 
-      Processing(ctx, (prefixes.join('\n') + '\n' + data));
+  $.fn.load_pde = function(pde_file, options) {
+    
+    var defaults = {  
+      prefix: '',
+      suffix: '',
+    };
+    
+    var options = $.extend(defaults, options);
+    
+    return this.each(function() {
+      ctx = this;
+      $.get(pde_file, function(data){ 
+        Processing(ctx, [options.prefix, data, options.suffix].join(''));
+      });
     });
+    
   }
-})(jQuery); 
+})(jQuery);
