@@ -10,20 +10,19 @@
  *
  *  $('canvas#art').load_pde('sketches/autumn_leaves.pde');
  *
+ *
+ * (c) Henry Poydar, MIT License
+ *
 **/
 
 (function($) {
   $.fn.load_pde = function(pde_file, options) {
     
-    var defaults = {  
-      prefix: '',
-      suffix: '',
-    };
-    
+    var defaults = {prefix: '', suffix: '' };
     var options = $.extend(defaults, options);
-    
+
     return this.each(function() {
-      ctx = this;
+      var ctx = this;
       $.get(pde_file, function(data){ 
         Processing(ctx, [options.prefix, data, options.suffix].join(''));
       });
